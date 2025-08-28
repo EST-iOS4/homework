@@ -23,7 +23,7 @@ class MessageCell: UITableViewCell {
     }
     
     func configure(with message: ViewController.Message) {
-        MessageLabel?.text = message.text
+        MessageLabel?.text = message.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if message.isMyMessage {
             MessageView?.backgroundColor = .systemBlue
