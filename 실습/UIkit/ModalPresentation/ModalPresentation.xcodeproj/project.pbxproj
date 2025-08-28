@@ -10,22 +10,9 @@
 		7DD9C9662E5FD96200B2BEB7 /* ModalPresentation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModalPresentation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		7DD9C9782E5FD96400B2BEB7 /* Exceptions for "ModalPresentation" folder in "ModalPresentation" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 7DD9C9652E5FD96200B2BEB7 /* ModalPresentation */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7DD9C9682E5FD96200B2BEB7 /* ModalPresentation */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				7DD9C9782E5FD96400B2BEB7 /* Exceptions for "ModalPresentation" folder in "ModalPresentation" target */,
-			);
 			path = ModalPresentation;
 			sourceTree = "<group>";
 		};
