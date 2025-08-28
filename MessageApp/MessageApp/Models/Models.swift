@@ -10,5 +10,5 @@ import UIKit
 struct Message: Hashable {
     let text: String
     let isMyMessage: Bool
-    let timestamp: Date
+ //   let timestamp: Date
 }
