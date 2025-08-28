@@ -1,0 +1,27 @@
+//
+//  Message.swift
+//  Cheetos
+//
+//  Created by 김민우 on 8/28/25.
+//
+import Foundation
+
+
+// MARK: Interface
+@MainActor
+public protocol MessageInterface: Sendable {
+    associatedtype ID: MessageIDRepresentable where ID.Object == Self
+    
+    var id: ID { get }
+    var isMyMessage: Bool { get }
+    var content: String { get }
+}
+
+@MainActor
+public protocol MessageIDRepresentable: Sendable, Hashable {
+    associatedtype Object: MessageInterface
+    
+    var rawValue: UUID { get }
+    var isExist: Bool { get }
+    var ref: Object? { get }
+}

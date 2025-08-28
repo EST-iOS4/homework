@@ -5,6 +5,7 @@
 //  Created by 김민우 on 8/28/25.
 //
 import Foundation
+import Values
 
 
 // MARK: Object
@@ -12,7 +13,10 @@ import Foundation
 public final class Cheetos: Sendable {
     // MARK: core
     public init() {
-        
+        CheetosManager.register(self)
+    }
+    internal func delete() {
+        CheetosManager.unregister(self.id)
     }
     
     
@@ -20,7 +24,15 @@ public final class Cheetos: Sendable {
     public nonisolated let id = ID()
     
     
+    
+    
     // MARK: action
+    public func fetchTodayForture() async {
+        // capture
+        
+        
+        // mutate
+    }
     
     
     // MARK: value
@@ -29,8 +41,12 @@ public final class Cheetos: Sendable {
         public let rawValue = UUID()
         nonisolated init() { }
         
-        public var isExist: Bool { fatalError() }
-        public var ref: Cheetos? { fatalError() }
+        public var isExist: Bool {
+            CheetosManager.container[self] != nil
+        }
+        public var ref: Cheetos? {
+            CheetosManager.container[self]
+        }
     }
 }
 
@@ -40,4 +56,10 @@ public final class Cheetos: Sendable {
 fileprivate final class CheetosManager: Sendable {
     // MARK: core
     static var container: [Cheetos.ID: Cheetos] = [:]
+    static func register(_ object: Cheetos) {
+        self.container[object.id] = object
+    }
+    static func unregister(_ id: Cheetos.ID) {
+        self.container[id] = nil
+    }
 }
