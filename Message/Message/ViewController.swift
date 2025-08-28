@@ -146,6 +146,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let textField = UITextField()
         textField.placeholder = "메시지를 입력하세요"
         textField.borderStyle = .roundedRect
+      textField.autocapitalizationType = .none
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -272,6 +273,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         addNewMessage(myMessage)
         
         messageTextField.text = ""
+      
+      sendButton.isEnabled = false
     }
     
   private func addNewMessage(_ message: Message) {
