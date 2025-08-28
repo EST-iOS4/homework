@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     var sendbutton = UIButton()
     var FortuneFbutton = UIButton()
     
-    var messages: [String] = ["안녕! 첫 메세지야"]
+    var messages: [String] = ["테스트 메세지"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
