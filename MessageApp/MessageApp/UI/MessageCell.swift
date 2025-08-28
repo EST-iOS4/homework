@@ -60,10 +60,13 @@ class MessageCell: UITableViewCell {
             bubbleView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             maxWidth,
           
-            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
-            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
+            messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 6),
+            messageLabel.bottomAnchor.constraint(equalTo: timestampLabel.topAnchor, constant: -6),
             messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 14),
-            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -14)
+            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -14),
+            
+            timestampLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -10),
+            timestampLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -6)
             ])
     }
     required init?(coder: NSCoder) {

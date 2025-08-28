@@ -228,14 +228,14 @@ class ViewController: UIViewController {
     
     @objc func sendMessage() {
         guard let text = inputBar.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
-        addMessage(Message(text: text, isMyMessage: true))
+        addMessage(Message(text: text, isMyMessage: true, timestamp: Date()))
         inputBar.textField.text = ""
         
     }
     
     @objc func getFortune() {
         guard let ran = fortuneMessages.randomElement() else { return }
-        addMessage(Message(text: ran, isMyMessage: false))
+        addMessage(Message(text: ran, isMyMessage: false, timestamp: Date()))
     }
     
     func addMessage(_ message: Message) {
