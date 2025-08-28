@@ -120,7 +120,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: Properties
     
     private var messages: [Message] = [
-        Message(text: "채팅방에 입장했습니다. '오늘의 운세' 버튼을 눌러 개발자 운세를 확인해보세요!", sender: .opponent, date: Date())
+        Message(text: "채팅방에 입장했습니다. '오늘의 운세 받기' 버튼을 눌러 개발자 운세를 확인해보세요!", sender: .opponent, date: Date())
     ]
     
     private let fortuneMessages: [String] = [
