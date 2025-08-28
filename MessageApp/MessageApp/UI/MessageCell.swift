@@ -10,9 +10,19 @@ import UIKit
 class MessageCell: UITableViewCell {
     let bubbleView = UIView()
     let messageLabel = UILabel()
+    private let timestampLabel = UILabel()
     
     var bubbleLeading: NSLayoutConstraint!
     var bubbletrailing: NSLayoutConstraint!
+    
+    static let timeFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.locale = .current
+        f.dateStyle = .none
+        f.timeStyle = .short
+        return f
+    }()
+    
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -24,12 +34,20 @@ class MessageCell: UITableViewCell {
         bubbleView.layer.masksToBounds = true
         
         messageLabel.numberOfLines = 0
+        messageLabel.lineBreakMode = .byWordWrapping
+        
+        messageLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        messageLabel.setContentCompressionResistancePriority(.required, for: .vertical)
+        messageLabel.setContentHuggingPriority(.required, for: .vertical)
         
         bubbleView.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        timestampLabel.translatesAutoresizingMaskIntoConstraints = false
+    
         
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(messageLabel)
+        bubbleView.addSubview(timestampLabel)
          
         let maxWidth = bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.7)
         maxWidth.priority = .required
@@ -44,12 +62,26 @@ class MessageCell: UITableViewCell {
           
             messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 10),
             messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
-            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: -14),
-            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: 14)
+            messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 14),
+            messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -14)
             ])
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let max = contentView.bounds.width * 0.7 - 28
+        if messageLabel.preferredMaxLayoutWidth != max {
+            messageLabel.preferredMaxLayoutWidth = max
+        }
+    }
+    
+    override func prepareForReuse() {
+        super .prepareForReuse()
+        bubbleLeading.isActive = false
+        bubbletrailing.isActive = false
     }
     
     func configure(with mesaage: Message) {
