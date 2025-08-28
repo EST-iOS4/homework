@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Cheetos",
-    platforms: [.iOS(.v18)],
+    platforms: [.iOS(.v26), .macOS(.v26)],
     products: [
         // MARK: Core
         .library(
@@ -27,7 +27,7 @@ let package = Package(
         ),
         .testTarget(
             name: "CheetosTests",
-            dependencies: ["Cheetos"]
+            dependencies: ["Cheetos", "Values"]
         ),
         
         // MARK: Value

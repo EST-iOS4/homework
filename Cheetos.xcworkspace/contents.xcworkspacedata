@@ -7,4 +7,7 @@
    <FileRef
       location = "group:Cheetos">
    </FileRef>
+   <FileRef
+      location = "group:Cheetos.xctestplan">
+   </FileRef>
 </Workspace>

@@ -1,0 +1,33 @@
+{
+  "configurations" : [
+    {
+      "id" : "36AC6783-F85C-477D-B0E6-40CBDE664550",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:",
+          "identifier" : "Cheetos",
+          "name" : "Cheetos"
+        }
+      ]
+    },
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "CheetosTests",
+        "name" : "CheetosTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -13,8 +13,11 @@ public protocol MessageInterface: Sendable {
     associatedtype ID: MessageIDRepresentable where ID.Object == Self
     
     var id: ID { get }
+    var content: String? { get }
+    var createdAt: Date? { get }
+    
     var isMyMessage: Bool { get }
-    var content: String { get }
+    var isLoading: Bool { get }
 }
 
 @MainActor

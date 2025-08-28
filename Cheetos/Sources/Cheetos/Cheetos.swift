@@ -12,7 +12,9 @@ import Values
 @MainActor @Observable
 public final class Cheetos: Sendable {
     // MARK: core
-    public init() {
+    public init(enableDelay: Bool = false) {
+        self.enableDelay = enableDelay
+        
         CheetosManager.register(self)
     }
     internal func delete() {
@@ -22,17 +24,33 @@ public final class Cheetos: Sendable {
     
     // MARK: state
     public nonisolated let id = ID()
+    internal nonisolated let enableDelay: Bool
     
-    
+    public var textInput: String = ""
+
+    public var messages: [any MessageIDRepresentable] = []
     
     
     // MARK: action
-    public func fetchTodayForture() async {
+    public func newFortune() async {
+        // mutate
+        let fortureRef = Fortune(owner: self.id)
+        self.messages.append(fortureRef.id)
+    }
+    public func newAdvice() async {
         // capture
-        
+        fatalError()
+    }
+    
+    public func createMyMessage() async {
+        // capture
+        let textInput = self.textInput
         
         // mutate
+        let myMessageRef = MyMessage(owner: self.id, content: textInput)
+        self.messages.append(myMessageRef.id)
     }
+    
     
     
     // MARK: value
