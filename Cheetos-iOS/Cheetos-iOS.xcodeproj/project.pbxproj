@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CEECC10C2E6080C40020F51E /* Cheetos in Frameworks */ = {isa = PBXBuildFile; productRef = CEECC10B2E6080C40020F51E /* Cheetos */; };
+		CEECC10E2E6080C40020F51E /* Values in Frameworks */ = {isa = PBXBuildFile; productRef = CEECC10D2E6080C40020F51E /* Values */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CED4E0B12E60567300B01262 /* Cheetos-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cheetos-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEECC10E2E6080C40020F51E /* Values in Frameworks */,
+				CEECC10C2E6080C40020F51E /* Cheetos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +85,8 @@
 			);
 			name = "Cheetos-iOS";
 			packageProductDependencies = (
+				CEECC10B2E6080C40020F51E /* Cheetos */,
+				CEECC10D2E6080C40020F51E /* Values */,
 			);
 			productName = "Cheetos-iOS";
 			productReference = CED4E0B12E60567300B01262 /* Cheetos-iOS.app */;
@@ -107,6 +116,9 @@
 			);
 			mainGroup = CED4E0A82E60567300B01262;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				CEECC10A2E6080C40020F51E /* XCLocalSwiftPackageReference "../Cheetos" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CED4E0B22E60567300B01262 /* Products */;
 			projectDirPath = "";
@@ -150,7 +162,7 @@
 				INFOPLIST_FILE = "Cheetos-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -182,7 +194,7 @@
 				INFOPLIST_FILE = "Cheetos-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -345,6 +357,24 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		CEECC10A2E6080C40020F51E /* XCLocalSwiftPackageReference "../Cheetos" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../Cheetos;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CEECC10B2E6080C40020F51E /* Cheetos */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Cheetos;
+		};
+		CEECC10D2E6080C40020F51E /* Values */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Values;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CED4E0A92E60567300B01262 /* Project object */;
 }
