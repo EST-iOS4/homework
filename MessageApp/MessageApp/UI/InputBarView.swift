@@ -33,7 +33,8 @@ class InputBarView: UIView {
         stack.alignment = .center
         stack.spacing = 8
         
-        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 16
+//        textField.borderStyle = .roundedRect
         textField.clearButtonMode = .whileEditing
         
         fortuneButton.contentEdgeInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)

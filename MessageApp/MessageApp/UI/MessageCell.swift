@@ -15,11 +15,14 @@ class MessageCell: UITableViewCell {
     var bubbleLeading: NSLayoutConstraint!
     var bubbletrailing: NSLayoutConstraint!
     
+    var timeLeftOfBubble: NSLayoutConstraint!
+    var timeRightOfBubble: NSLayoutConstraint!
+    
     static let timeFormatter: DateFormatter = {
         let f = DateFormatter()
-        f.locale = .current
-        f.dateStyle = .none
-        f.timeStyle = .short
+        f.locale = Locale(identifier: "ko_KR")
+        f.dateFormat = "a h:mm"
+//        f.timeStyle = .short
         return f
     }()
     
@@ -47,7 +50,11 @@ class MessageCell: UITableViewCell {
         
         contentView.addSubview(bubbleView)
         bubbleView.addSubview(messageLabel)
-        bubbleView.addSubview(timestampLabel)
+        contentView.addSubview(timestampLabel)
+        
+        
+        timestampLabel.font = .systemFont(ofSize: 11)
+        timestampLabel.textColor = .secondaryLabel
          
         let maxWidth = bubbleView.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, multiplier: 0.7)
         maxWidth.priority = .required
@@ -61,13 +68,18 @@ class MessageCell: UITableViewCell {
             maxWidth,
           
             messageLabel.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 6),
-            messageLabel.bottomAnchor.constraint(equalTo: timestampLabel.topAnchor, constant: -6),
+            messageLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -10),
             messageLabel.leadingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: 14),
             messageLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -14),
             
-            timestampLabel.trailingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: -10),
             timestampLabel.bottomAnchor.constraint(equalTo: bubbleView.bottomAnchor, constant: -6)
+            
             ])
+        
+        timeLeftOfBubble  = timestampLabel.trailingAnchor.constraint(equalTo: bubbleView.leadingAnchor, constant: -6)
+        timeRightOfBubble = timestampLabel.leadingAnchor.constraint(equalTo: bubbleView.trailingAnchor, constant: 6)
+
+        
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -85,23 +97,34 @@ class MessageCell: UITableViewCell {
         super .prepareForReuse()
         bubbleLeading.isActive = false
         bubbletrailing.isActive = false
+        timeLeftOfBubble?.isActive = false
+        timeRightOfBubble?.isActive = false
     }
     
     func configure(with mesaage: Message) {
         messageLabel.text = mesaage.text
+        timestampLabel.text = Self.timeFormatter.string(from: mesaage.timestamp)
         
         if mesaage.isMyMessage {
             bubbleLeading.isActive = false
             bubbletrailing.isActive = true
             
+            timeLeftOfBubble.isActive = true
+            timeRightOfBubble.isActive = false
+            
             bubbleView.backgroundColor = .systemBlue
             messageLabel.textColor = .white
+           
         } else {
             bubbleLeading.isActive = true
             bubbletrailing.isActive = false
             
+            timeLeftOfBubble.isActive = false
+            timeRightOfBubble.isActive = true
+            
             bubbleView.backgroundColor = .systemGray
             messageLabel.textColor = .white
+          
         }
     }
     
