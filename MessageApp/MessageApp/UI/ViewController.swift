@@ -110,13 +110,15 @@ class ViewController: UIViewController {
         "내일은 오늘보다 더 나은 개발자가 되어 있을 거예요.",
         "코딩의 즐거움을 잃지 마세요. 그것이 가장 중요합니다! ❤"
     ]
-
+    
     let tableView = UITableView()
     let inputBar = InputBarView()
     var inputBarBottomConstraint: NSLayoutConstraint!
+    var didScrollToBottom = false
+    let jumpToBottomButton = UIButton(type: .system)
     
     private var messages: [Message] = []
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -124,6 +126,12 @@ class ViewController: UIViewController {
         setupConstraints()
         setupKeyboardObservers()
     }
+        override func viewDidAppear(_ animated: Bool) {
+            super.viewDidAppear(animated)
+            guard !didScrollToBottom else { return }
+            scrollToBottom(animated: false)
+            didScrollToBottom = true
+        }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
@@ -160,7 +168,21 @@ class ViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(inputBar)
         
-//      키보드 내리기 밖에 탭할시
+        jumpToBottomButton.setImage(UIImage(systemName: "chevron.down"), for: .normal)
+        jumpToBottomButton.tintColor = .white
+        jumpToBottomButton.backgroundColor = .systemBlue
+        jumpToBottomButton.layer.cornerRadius = 20
+        jumpToBottomButton.layer.shadowColor = UIColor.black.cgColor
+        jumpToBottomButton.layer.shadowOpacity = 0.2
+        jumpToBottomButton.layer.shadowRadius = 6
+        jumpToBottomButton.layer.shadowOffset = CGSize(width: 0, height: 2)
+        jumpToBottomButton.addTarget(self, action: #selector(tapJumpToBottom), for: .touchUpInside)
+        
+        jumpToBottomButton.alpha = 0
+        jumpToBottomButton.isHidden = true
+        view.addSubview(jumpToBottomButton
+        )
+        //      키보드 내리기 밖에 탭할시
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tap)
@@ -169,6 +191,7 @@ class ViewController: UIViewController {
     func setupConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         inputBar.translatesAutoresizingMaskIntoConstraints = false
+        jumpToBottomButton.translatesAutoresizingMaskIntoConstraints = false
         
         //테이블뷰 오토
         NSLayoutConstraint.activate([
@@ -188,6 +211,14 @@ class ViewController: UIViewController {
         ])
         
         tableView.bottomAnchor.constraint(equalTo: inputBar.topAnchor).isActive = true
+        
+        
+        NSLayoutConstraint.activate([
+            jumpToBottomButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            jumpToBottomButton.bottomAnchor.constraint(equalTo: inputBar.topAnchor, constant: -12),
+            jumpToBottomButton.widthAnchor.constraint(equalToConstant: 44),
+            jumpToBottomButton.heightAnchor.constraint(equalToConstant: 44)
+        ])
     }
     
     func setupKeyboardObservers() {
@@ -205,26 +236,56 @@ class ViewController: UIViewController {
     }
     
     @objc private func handleKeyboard(notification: Notification) {
-           guard let info = notification.userInfo,
-                 let endFrame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
-                 let duration = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue,
-                 let curveRaw = (info[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
-           else { return }
-
-           let endInView = view.convert(endFrame, from: nil)
-           let overlap = max(0, view.bounds.maxY - endInView.minY) // 가려지는 높이
-           inputBarBottomConstraint.constant = -overlap
-
-           let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
-           UIView.animate(withDuration: duration, delay: 0, options: options) {
-               self.view.layoutIfNeeded()
-               self.scrollToBottom(animated: false)
-           }
-       }
+        guard let info = notification.userInfo,
+              let endFrame = (info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              let duration = (info[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue,
+              let curveRaw = (info[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber)?.uintValue
+        else { return }
+        
+        let endInView = view.convert(endFrame, from: nil)
+        let overlap = max(0, view.bounds.maxY - endInView.minY) // 가려지는 높이
+        inputBarBottomConstraint.constant = -overlap
+        
+        let options = UIView.AnimationOptions(rawValue: curveRaw << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options) {
+            self.view.layoutIfNeeded()
+            self.scrollToBottom(animated: false)
+        }
+    }
+    
+    @objc private func tapJumpToBottom() {
+        scrollToBottom(animated: true)
+        setJumpToBottomVisible(false)
+    }
+    
+    func setJumpToBottomVisible(_ visible: Bool) {
+        guard jumpToBottomButton.isHidden != !visible || jumpToBottomButton.alpha != (visible ? 1 : 0) else { return }
+        if visible {
+            jumpToBottomButton.isHidden = false
+            UIView.animate(withDuration: 0.2) {
+                self.jumpToBottomButton.alpha = 1 }
+        } else {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.jumpToBottomButton.alpha = 0
+            }, completion: { _ in
+                self.jumpToBottomButton.isHidden = true
+            })
+        }
+    }
+    
+    func isNearBottom(threshold: CGFloat = 40) -> Bool {
+        let inset = tableView.adjustedContentInset
+        let visibleHeight = tableView.bounds.height - inset.top - inset.bottom
+        let y = tableView.contentOffset.y + inset.top
+        let contentHeight = tableView.contentSize.height
+        guard contentHeight > 0 else { return true }
+        return (contentHeight - (y + visibleHeight)) <= threshold
+        
+    }
     
     @objc private func dismissKeyboard() {
-            view.endEditing(true)
-        }
+        view.endEditing(true)
+    }
     
     @objc func sendMessage() {
         guard let text = inputBar.textField.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
@@ -248,7 +309,11 @@ class ViewController: UIViewController {
         } else {
             tableView.insertRows(at: [indexPath], with: .automatic)
         }
-        scrollToBottom(animated: true)
+        
+        DispatchQueue.main.async {
+            self.scrollToBottom(animated: true)
+            self.setJumpToBottomVisible(false)
+        }
     }
     
     func scrollToBottom(animated: Bool) {
@@ -270,11 +335,20 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: msg)
         return cell
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !messages.isEmpty else { setJumpToBottomVisible(false) ; return }
+        setJumpToBottomVisible(!isNearBottom())
+    }
 }
 
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         sendMessage()
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        scrollToBottom(animated: true)
     }
 }
